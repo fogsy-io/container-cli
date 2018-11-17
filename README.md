@@ -3,6 +3,8 @@ With container-cli you can easily transform your docker-compose.yml into a CLI t
 You can use and modify this project to your needs.
 We have provided a blog post [TODO link] explaining the tool.
 
+As an example we includes the backend and frontend of StreamPipes [Link]. This is just an example application to show the functionality of the CLI tool. When you want to install StreamPipes go to the official documentation for further instructions.
+
 ## Commands
 * start (service-name) 
 	* Starts all services defined in active-services
@@ -38,7 +40,9 @@ We use argbash to create the bash script from the template container-cli.m4. You
 `(argbash_dir_on_your_computer)/bin/argbash container-cli.m4 -o container-cli`
 
 ## Internals
-This section explains the internals of this project
+This section explains the internals of this project.
+To just use it have a look at the services directory and active-services.
+When you are interested to extend the functionalities, have a look at the file container-cli.m4
 
 ### Files and Folders
 * nginx_conf/ `(Volume mapping of service nginx)`

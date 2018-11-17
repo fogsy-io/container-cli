@@ -1,7 +1,7 @@
 version: "2"
 services:
   ui:
-    image: ${SP_DOCKER_REGISTRY}streampipes/ui/dev
+    image: ${SP_DOCKER_REGISTRY}streampipes/ui:${SP_UI_VERSION}
     ports:
       - "80:80"
     depends_on:
