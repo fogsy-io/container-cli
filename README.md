@@ -1,4 +1,4 @@
-#ContainerCLI gives you a CLI for your docker-compose file
+# ContainerCLI: A CLI for your docker-compose file
 With container-cli you can easily transform your docker-compose.yml into a CLI tool to manage your application.
 You can use and modify this project to your needs.
 We have provided a blog post [TODO link] explaining the tool.
@@ -34,7 +34,8 @@ We have provided a blog post [TODO link] explaining the tool.
 
 ## Build & Extend the functionality
 We use argbash to create the bash script from the template container-cli.m4. You can extend this file with further bash commands. To compile it you need to install arg-bash and execute the following command.
-(argbash_dir_on_your_computer)/bin/argbash container-cli.m4 -o container-cli
+
+`(argbash_dir_on_your_computer)/bin/argbash container-cli.m4 -o container-cli`
 
 ## Internals
 This section explains the internals of this project
