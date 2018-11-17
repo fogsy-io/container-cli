@@ -47,7 +47,7 @@ startStreamPipes() {
 	fi
     getCommand
 		echo "Starting StreamPipes ${_arg_operation[1]}"
-    "$command up -d ${_arg_operation[1]}"
+    $command up -d ${_arg_operation[1]}
 
     endEcho "StreamPipes started ${_arg_operation[1]}"
 }
@@ -56,7 +56,7 @@ updateStreamPipes() {
     getCommand
 
 		echo "Updating StreamPipes ${_arg_operation[1]}"
-    "$command up -d ${_arg_operation[1]}"
+    $command up -d ${_arg_operation[1]}
 
 		endEcho "Services updated"
 }
@@ -74,10 +74,10 @@ stopStreamPipes() {
 		echo "Stopping StreamPipes ${_arg_operation[1]}"
     if [ "${_arg_operation[1]}" = "" ]; 
 		then
-    	"$command down"
+    	$command down
 		else
-    	"$command stop ${_arg_operation[1]}"
-    	"$command rm -f ${_arg_operation[1]}"
+    	$command stop ${_arg_operation[1]}
+    	$command rm -f ${_arg_operation[1]}
 		fi
 
     endEcho "StreamPipes stopped ${_arg_operation[1]}"
@@ -86,7 +86,7 @@ stopStreamPipes() {
 restartStreamPipes() {
 	getCommand
 	echo "Restarting StreamPipes."
-	"$command restart ${_arg_operation[1]}"
+	$command restart ${_arg_operation[1]}
 
   endEcho "StreamPipes restarted ${_arg_operation[1]}"
 

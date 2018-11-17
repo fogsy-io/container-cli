@@ -150,67 +150,9 @@ _arg_operation="$(operation "$_arg_operation" "operation")" || exit 1
 # [ <-- needed because of Argbash
 
 
-run() {
-
-#	if [ $_arg_logs = "on" ];
-#	then
-		$1
-#	else
-#		$1 > /dev/null 2>&1
-#	fi
-}
-
 endEcho() {
 	echo ''
 	echo $1
-}
-
-getIp() {
-    if [ -x "$(command -v ifconfig)" ]; then
-        rawip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
-    elif [ -x "$(command -v ipconfig)" ]; then
-        rawip=$(ipconfig | grep -Eo 'IPv4.*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
-    fi
-
-    rawip=`echo $rawip | sed 's/(%s)*\n/ /g'`
-    IFS=' ' declare -a 'allips=($rawip)'
-
-    allips+=( 'Enter IP manually' )
-
-    # if default selected do not show prompt
-
-    if [ $_arg_hostname ] ;
-    then
-        ip=$_arg_hostname
-        echo 'Default IP was selected: '${ip}
-    else
-
-				if [ $_arg_defaultip = "on" ];
-				then
-        	ip=${allips[0]}
-        	echo 'Default IP was selected: '${ip}
-				else
-					echo ''
-					echo 'Please select your IP address or add one manually: '
-					PS3='Select option: '
-					select opt in "${allips[@]}"
-					do
-							if [ -z "${opt}" ];
-							then
-									echo "Wrong input, select one of the options";
-							else
-									ip="$opt"
-
-									if [ "$opt" == "Enter IP manually" ];
-									then
-											read -p "Enter Ip: " ip
-									fi
-									break
-							fi
-        	done
-				fi
-    fi
-
 }
 
 moveSystemConfig() {
@@ -237,14 +179,13 @@ startStreamPipes() {
 		moveSystemConfig active-services
 	fi
 
-	if [ ! -f "./.env" ] || [ $_arg_defaultip = "on" ];
+	if [ ! -f "./.env" ];
     then
-		getIp
 		sed "s/##IP##/${ip}/g" ./tmpl_env > .env
 	fi
     getCommand
 		echo "Starting StreamPipes ${_arg_operation[1]}"
-    run "$command up -d ${_arg_operation[1]}"
+    $command up -d ${_arg_operation[1]}
 
     endEcho "StreamPipes started ${_arg_operation[1]}"
 }
@@ -253,7 +194,7 @@ updateStreamPipes() {
     getCommand
 
 		echo "Updating StreamPipes ${_arg_operation[1]}"
-    run "$command up -d ${_arg_operation[1]}"
+    $command up -d ${_arg_operation[1]}
 
 		endEcho "Services updated"
 }
@@ -271,10 +212,10 @@ stopStreamPipes() {
 		echo "Stopping StreamPipes ${_arg_operation[1]}"
     if [ "${_arg_operation[1]}" = "" ];
 		then
-    	run "$command down"
+    	$command down
 		else
-    	run "$command stop ${_arg_operation[1]}"
-    	run "$command rm -f ${_arg_operation[1]}"
+    	$command stop ${_arg_operation[1]}
+    	$command rm -f ${_arg_operation[1]}
 		fi
 
     endEcho "StreamPipes stopped ${_arg_operation[1]}"
@@ -283,7 +224,7 @@ stopStreamPipes() {
 restartStreamPipes() {
 	getCommand
 	echo "Restarting StreamPipes."
-	run "$command restart ${_arg_operation[1]}"
+	$command restart ${_arg_operation[1]}
 
   endEcho "StreamPipes restarted ${_arg_operation[1]}"
 
@@ -433,13 +374,6 @@ fi
 if [ "$_arg_operation" = "deactivate" ];
 then
     deactivateService
-fi
-
-if [ "$_arg_operation" = "cleanstart" ];
-then
-    cleanStreamPipes
-    startStreamPipes
-    echo 'All configurations of StreamPipes are deleted and StreamPipes is restarted'
 fi
 
 if [ "$_arg_operation" = "list-available" ];

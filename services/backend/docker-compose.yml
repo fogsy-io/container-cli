@@ -3,13 +3,9 @@ services:
   backend:
     image: ${SP_DOCKER_REGISTRY}/streampipes/ce/backend:${SP_BACKEND_VERSION}
     depends_on:
-      - consul
-      - couchdb
+      - db
     ports:
       - "8030:8030"
     volumes:
       - ./config:/root/.streampipes
       - ./config/RDF4J:/root/.RDF4J
-    networks:
-      spnet:
-
