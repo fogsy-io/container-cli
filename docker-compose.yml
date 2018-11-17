@@ -1,0 +1,4 @@
+version: "2"
+    
+# This compose file can contain all services, volumes, and network descriptions that are required 
+# for all services. They are started with every command
